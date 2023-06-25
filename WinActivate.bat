@@ -4,7 +4,7 @@
     set "Apply=%*"
     cd /d "%~dp0" && ( if exist "%temp%\getadmin.vbs" del "%temp%\getadmin.vbs" ) && fsutil dirty query "%systemdrive%" 1>nul 2>nul || (  cmd /u /c echo Set UAC = CreateObject^("Shell.Application"^) : UAC.ShellExecute "cmd.exe", "/k cd ""%~sdp0"" && ""%~0"" %Apply%", "", "runas", 1 >> "%temp%\getadmin.vbs" && "%temp%\getadmin.vbs" /f && exit /B )
     color 02
-    title Windows 10 激活
+    title Windows 10 activate
     pushd "%~dp0"
     setlocal enabledelayedexpansion
     cls
@@ -37,24 +37,24 @@ cscript /nologo %SystemRoot%\system32\slmgr.vbs /ckms
       )
 
     if not exist "%SystemRoot%\System32\spp\tokens\skus\%skus%" (
-    title Windows 10 数字权利激活脚本－正在安装数字证书
+    title Windows 10 activate－Installing License
 
     ".\bin\7z.exe" x ".\skus\%version%.7z" -o"%SystemRoot%\%digit%" %skus% -aoa >nul 2>nul 
     if not exist "%SystemRoot%\System32\spp\tokens\skus\%skus%" goto end
     echo ---------------------------------------------------------------
-    echo 正在安装数字证书，此过程时间稍长，请耐心等待完成。
+    echo Installing License, it may take some time, please wait for finish
     cscript /nologo %SystemRoot%\System32\slmgr.vbs /rilc >nul
     ) else (
     goto next
         )
 
     :next
-    title Windows 10 数字权利激活脚本－正在激活
+    title Windows 10 activate-Activating
     if /i "%skus%" equ "ServerRdsh" goto ActiveSR
     for /f "tokens=3" %%k in ('reg query "HKLM\SYSTEM\CurrentControlSet\Services\wuauserv" /v "start"') do (set services=%%k)
     if /i "%services:~-1%" gtr "3" (
     echo ---------------------------------------------------------------
-    echo 正在开启 Windows Update 服务。
+    echo Starting 'Windows Update' service。
     sc config wuauserv start= auto >nul 2>nul
     ) else (
     goto activation1
@@ -63,7 +63,7 @@ cscript /nologo %SystemRoot%\system32\slmgr.vbs /ckms
     :activation1
 
     echo ---------------------------------------------------------------
-    echo      正在安装产品密钥，请等待完成。
+    echo      Installing Product Key，Please Wait
     echo ---------------------------------------------------------------
     cscript /nologo %SystemRoot%\System32\slmgr.vbs /ipk %pidkey% || goto error1
     timeout /nobreak /t 2 >nul
@@ -78,7 +78,7 @@ cscript /nologo %SystemRoot%\system32\slmgr.vbs /ckms
     reg add "HKCU\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers" /v "\"%~dp0bin\%ActiveType%\gatherosstate.exe"\" /d "^ WIN7RTM" /f >nul
 
     echo ---------------------------------------------------------------
-    echo     正在获取数字门票，请等待完成。
+    echo     Geting Digital Tickets，Please Wait
     echo ---------------------------------------------------------------
 
     set "number=0"
@@ -113,10 +113,10 @@ cscript /nologo %SystemRoot%\system32\slmgr.vbs /ckms
 
     :ActiveSR
     echo ---------------------------------------------------------------
-    echo      正在安装产品密钥，请等待完成。
+    echo       Installing Product Key，Please Wait
     cscript /nologo %SystemRoot%\System32\slmgr.vbs /ipk %pidkey%
     echo ---------------------------------------------------------------
-    echo      正在激活 Windows，请等待完成。
+    echo      Activating Windows
     cscript /nologo %SystemRoot%\system32\slmgr.vbs /ato
 
 
