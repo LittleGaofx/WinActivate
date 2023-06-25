@@ -4,7 +4,7 @@
     set "Apply=%*"
     cd /d "%~dp0" && ( if exist "%temp%\getadmin.vbs" del "%temp%\getadmin.vbs" ) && fsutil dirty query "%systemdrive%" 1>nul 2>nul || (  cmd /u /c echo Set UAC = CreateObject^("Shell.Application"^) : UAC.ShellExecute "cmd.exe", "/k cd ""%~sdp0"" && ""%~0"" %Apply%", "", "runas", 1 >> "%temp%\getadmin.vbs" && "%temp%\getadmin.vbs" /f && exit /B )
     color 02
-    title Windows 10 ¼¤»î
+    title Windows 10 æ¿€æ´»
     pushd "%~dp0"
     setlocal enabledelayedexpansion
     cls
@@ -21,7 +21,7 @@ goto Professional
 
     :start
     cls
-    wmic path SoftwareLicensingProduct where (LicenseStatus='1' and GracePeriodRemaining='0') get Name 2>nul | findstr /i "Windows" >nul 2>&1 && (echo. & echo ÄúÊ¹ÓÃµÄ¼ÆËã»úÒÑÓÀ¾Ã¼¤»î£¬ÎÞÐèÔÙ´Î¼¤»î¡£ & echo ÇëÔÚÎ´¼¤»îµÄ¼ÆËã»úÉÏÔËÐÐ´Ë½Å±¾£¬»òÊäÈë2Ñ¡Ôñ¼¤»îÆäËü°æ±¾¡£ & echo °´ÈÎÒâ¼üÍË³ö½Å±¾¡£ & pause >nul && exit )
+    wmic path SoftwareLicensingProduct where (LicenseStatus='1' and GracePeriodRemaining='0') get Name 2>nul | findstr /i "Windows" >nul 2>&1 && (echo. & echo æ‚¨ä½¿ç”¨çš„è®¡ç®—æœºå·²æ°¸ä¹…æ¿€æ´»ï¼Œæ— éœ€å†æ¬¡æ¿€æ´»ã€‚ & echo è¯·åœ¨æœªæ¿€æ´»çš„è®¡ç®—æœºä¸Šè¿è¡Œæ­¤è„šæœ¬ï¼Œæˆ–è¾“å…¥2é€‰æ‹©æ¿€æ´»å…¶å®ƒç‰ˆæœ¬ã€‚ & echo æŒ‰ä»»æ„é”®é€€å‡ºè„šæœ¬ã€‚ & pause >nul && exit )
 
     for /f "tokens=3 delims= " %%i in ('cscript /nologo %SystemRoot%\System32\slmgr.vbs /dli ^| findstr /i "edition"') do (set edition=%%i)
     goto %edition%
@@ -37,24 +37,24 @@ cscript /nologo %SystemRoot%\system32\slmgr.vbs /ckms
       )
 
     if not exist "%SystemRoot%\System32\spp\tokens\skus\%skus%" (
-    title Windows 10 Êý×ÖÈ¨Àû¼¤»î½Å±¾£­ÕýÔÚ°²×°Êý×ÖÖ¤Êé
+    title Windows 10 æ•°å­—æƒåˆ©æ¿€æ´»è„šæœ¬ï¼æ­£åœ¨å®‰è£…æ•°å­—è¯ä¹¦
 
     ".\bin\7z.exe" x ".\skus\%version%.7z" -o"%SystemRoot%\%digit%" %skus% -aoa >nul 2>nul 
     if not exist "%SystemRoot%\System32\spp\tokens\skus\%skus%" goto end
     echo ---------------------------------------------------------------
-    echo ÕýÔÚ°²×°Êý×ÖÖ¤Êé£¬´Ë¹ý³ÌÊ±¼äÉÔ³¤£¬ÇëÄÍÐÄµÈ´ýÍê³É¡£
+    echo æ­£åœ¨å®‰è£…æ•°å­—è¯ä¹¦ï¼Œæ­¤è¿‡ç¨‹æ—¶é—´ç¨é•¿ï¼Œè¯·è€å¿ƒç­‰å¾…å®Œæˆã€‚
     cscript /nologo %SystemRoot%\System32\slmgr.vbs /rilc >nul
     ) else (
     goto next
         )
 
     :next
-    title Windows 10 Êý×ÖÈ¨Àû¼¤»î½Å±¾£­ÕýÔÚ¼¤»î
+    title Windows 10 æ•°å­—æƒåˆ©æ¿€æ´»è„šæœ¬ï¼æ­£åœ¨æ¿€æ´»
     if /i "%skus%" equ "ServerRdsh" goto ActiveSR
     for /f "tokens=3" %%k in ('reg query "HKLM\SYSTEM\CurrentControlSet\Services\wuauserv" /v "start"') do (set services=%%k)
     if /i "%services:~-1%" gtr "3" (
     echo ---------------------------------------------------------------
-    echo ÕýÔÚ¿ªÆô Windows Update ·þÎñ¡£
+    echo æ­£åœ¨å¼€å¯ Windows Update æœåŠ¡ã€‚
     sc config wuauserv start= auto >nul 2>nul
     ) else (
     goto activation1
@@ -63,22 +63,22 @@ cscript /nologo %SystemRoot%\system32\slmgr.vbs /ckms
     :activation1
 
     echo ---------------------------------------------------------------
-    echo      ÕýÔÚ°²×°²úÆ·ÃÜÔ¿£¬ÇëµÈ´ýÍê³É¡£
+    echo      æ­£åœ¨å®‰è£…äº§å“å¯†é’¥ï¼Œè¯·ç­‰å¾…å®Œæˆã€‚
     echo ---------------------------------------------------------------
     cscript /nologo %SystemRoot%\System32\slmgr.vbs /ipk %pidkey% || goto error1
     timeout /nobreak /t 2 >nul
-    wmic path SoftwareLicensingProduct where (LicenseStatus='1' and GracePeriodRemaining='0') get Name 2>nul | findstr /i "Windows" >nul 2>&1 && (echo. & echo ÄúÊ¹ÓÃµÄ¼ÆËã»úÒÑÓÀ¾Ã¼¤»î£¬ÎÞÐèÔÙ´Î¼¤»î¡£ & echo ÇëÔÚÎ´¼¤»îµÄ¼ÆËã»úÉÏÔËÐÐ´Ë½Å±¾¡£ & echo °´ÈÎÒâ¼üÍË³ö½Å±¾¡£ & pause >nul && exit )
+    wmic path SoftwareLicensingProduct where (LicenseStatus='1' and GracePeriodRemaining='0') get Name 2>nul | findstr /i "Windows" >nul 2>&1 && (echo. & echo æ‚¨ä½¿ç”¨çš„è®¡ç®—æœºå·²æ°¸ä¹…æ¿€æ´»ï¼Œæ— éœ€å†æ¬¡æ¿€æ´»ã€‚ & echo è¯·åœ¨æœªæ¿€æ´»çš„è®¡ç®—æœºä¸Šè¿è¡Œæ­¤è„šæœ¬ã€‚ & echo æŒ‰ä»»æ„é”®é€€å‡ºè„šæœ¬ã€‚ & pause >nul && exit )
 
     sc start wuauserv >nul 2>nul
     echo ---------------------------------------------------------------
-    echo ÕýÔÚÌí¼Ó×¢²á±í¡£
+    echo æ­£åœ¨æ·»åŠ æ³¨å†Œè¡¨ã€‚
     reg add "HKLM\SYSTEM\Tokens" /v "Channel" /t REG_SZ /d "%License%" /f >nul
     reg add "HKLM\SYSTEM\Tokens\Kernel" /v "Kernel-ProductInfo" /t REG_DWORD /d "%sku%" /f >nul
     reg add "HKLM\SYSTEM\Tokens\Kernel" /v "Security-SPP-GenuineLocalStatus" /t REG_DWORD /d "1" /f >nul
     reg add "HKCU\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers" /v "\"%~dp0bin\%ActiveType%\gatherosstate.exe"\" /d "^ WIN7RTM" /f >nul
 
     echo ---------------------------------------------------------------
-    echo     ÕýÔÚ»ñÈ¡Êý×ÖÃÅÆ±£¬ÇëµÈ´ýÍê³É¡£
+    echo     æ­£åœ¨èŽ·å–æ•°å­—é—¨ç¥¨ï¼Œè¯·ç­‰å¾…å®Œæˆã€‚
     echo ---------------------------------------------------------------
 
     set "number=0"
@@ -107,27 +107,27 @@ cscript /nologo %SystemRoot%\system32\slmgr.vbs /ckms
       )
 
     echo ---------------------------------------------------------------
-    echo ÕýÔÚÉ¾³ý×¢²á±í¡£
+    echo æ­£åœ¨åˆ é™¤æ³¨å†Œè¡¨ã€‚
     reg delete "HKLM\SYSTEM\Tokens" /f >nul
     reg delete "HKCU\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers" /v "\"%~dp0bin\%ActiveType%\gatherosstate.exe"\" /f >nul
 
     :ActiveSR
     echo ---------------------------------------------------------------
-    echo      ÕýÔÚ°²×°²úÆ·ÃÜÔ¿£¬ÇëµÈ´ýÍê³É¡£
+    echo      æ­£åœ¨å®‰è£…äº§å“å¯†é’¥ï¼Œè¯·ç­‰å¾…å®Œæˆã€‚
     cscript /nologo %SystemRoot%\System32\slmgr.vbs /ipk %pidkey%
     echo ---------------------------------------------------------------
-    echo      ÕýÔÚ¼¤»î Windows£¬ÇëµÈ´ýÍê³É¡£
+    echo      æ­£åœ¨æ¿€æ´» Windowsï¼Œè¯·ç­‰å¾…å®Œæˆã€‚
     cscript /nologo %SystemRoot%\system32\slmgr.vbs /ato
 
 
 
     :install
-    title Windows 10 Êý×ÖÈ¨Àû¼¤»î½Å±¾£­°²×°²úÆ·ÃÜÔ¿
+    title Windows 10 æ•°å­—æƒåˆ©æ¿€æ´»è„šæœ¬ï¼å®‰è£…äº§å“å¯†é’¥
     echo ---------------------------------------------------------------
-    set /p "install=ÇëÊäÈë»òÕ³ÌùÐèÒª°²×°µÄÃÜÔ¿£¬°´ Enter °²×°:"
+    set /p "install=è¯·è¾“å…¥æˆ–ç²˜è´´éœ€è¦å®‰è£…çš„å¯†é’¥ï¼ŒæŒ‰ Enter å®‰è£…:"
     cls
     echo ---------------------------------------------------------------
-    echo      ÕýÔÚ°²×°²úÆ·ÃÜÔ¿£¬ÇëµÈ´ýÍê³É¡£
+    echo      æ­£åœ¨å®‰è£…äº§å“å¯†é’¥ï¼Œè¯·ç­‰å¾…å®Œæˆã€‚
     echo ---------------------------------------------------------------
     cscript /nologo %SystemRoot%\System32\slmgr.vbs /ipk %install% || goto error
     echo ---------------------------------------------------------------
@@ -144,7 +144,7 @@ cscript /nologo %SystemRoot%\system32\slmgr.vbs /ckms
     set "pid7=!pid0:~42,7!"
     set "pid8=!pid0:~49,7!"
     set "pid9=!pid0:~56,7!"
-    echo °²×° ID: !pid1! !pid2! !pid3! !pid4! !pid5! !pid6! !pid7! !pid8! !pid9!
+    echo å®‰è£… ID: !pid1! !pid2! !pid3! !pid4! !pid5! !pid6! !pid7! !pid8! !pid9!
         )
 
     :error
@@ -153,9 +153,9 @@ cscript /nologo %SystemRoot%\system32\slmgr.vbs /ckms
     exit
 
     :uninstall
-    title Windows 10 Êý×ÖÈ¨Àû¼¤»î½Å±¾£­Ð¶ÔØ KEY
+    title Windows 10 æ•°å­—æƒåˆ©æ¿€æ´»è„šæœ¬ï¼å¸è½½ KEY
     echo ---------------------------------------------------------------
-    echo     ÕýÔÚÐ¶ÔØÄ¬ÈÏÃÜÔ¿£¬ÇëÉÔµÈ¡£
+    echo     æ­£åœ¨å¸è½½é»˜è®¤å¯†é’¥ï¼Œè¯·ç¨ç­‰ã€‚
     echo ---------------------------------------------------------------
     cscript /nologo %SystemRoot%\system32\slmgr.vbs /upk
     echo ---------------------------------------------------------------
@@ -164,22 +164,22 @@ cscript /nologo %SystemRoot%\system32\slmgr.vbs /ckms
 
     :end
     echo ---------------------------------------------------------------
-    echo Ö¤Êé¸´ÖÆÊ§°Ü£¬Çë¼ì²é skus Ä¿Â¼ÊÇ·ñÍêÕû¡£
-    echo »ò¼ì²éÑ¡ÔñµÄÄ¿±ê°æ±¾£¬µ±Ç°ÏµÍ³ÊÇ·ñÖ§³Ö×ª»»¡£
+    echo è¯ä¹¦å¤åˆ¶å¤±è´¥ï¼Œè¯·æ£€æŸ¥ skus ç›®å½•æ˜¯å¦å®Œæ•´ã€‚
+    echo æˆ–æ£€æŸ¥é€‰æ‹©çš„ç›®æ ‡ç‰ˆæœ¬ï¼Œå½“å‰ç³»ç»Ÿæ˜¯å¦æ”¯æŒè½¬æ¢ã€‚
     echo ---------------------------------------------------------------
-    echo °´ÈÎÒâ¼üÍË³ö½Å±¾¡£
+    echo æŒ‰ä»»æ„é”®é€€å‡ºè„šæœ¬ã€‚
     pause >nul
     exit
 
     :end1
     echo ---------------------------------------------------------------
-    echo Êý×ÖÃÅÆ±»ñÈ¡Ê§°Ü£¬ Windows 10 %skus% Î´ÄÜ¼¤»î¡£
+    echo æ•°å­—é—¨ç¥¨èŽ·å–å¤±è´¥ï¼Œ Windows 10 %skus% æœªèƒ½æ¿€æ´»ã€‚
     echo ---------------------------------------------------------------
-    echo ÕýÔÚÉ¾³ý×¢²á±í¡£
+    echo æ­£åœ¨åˆ é™¤æ³¨å†Œè¡¨ã€‚
     reg delete "HKLM\SYSTEM\Tokens" /f >nul
     reg delete "HKCU\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers" /v "\"%~dp0bin\%ActiveType%\gatherosstate.exe"\" /f >nul
     echo ---------------------------------------------------------------
-    echo °´ÈÎÒâ¼üÍË³ö¡£
+    echo æŒ‰ä»»æ„é”®é€€å‡ºã€‚
     pause >nul
     exit
 
